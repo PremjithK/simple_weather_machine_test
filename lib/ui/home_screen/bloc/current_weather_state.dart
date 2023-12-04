@@ -1,14 +1,21 @@
 part of 'current_weather_bloc.dart';
 
-sealed class CurrentWeatherState extends Equatable {
-  const CurrentWeatherState();
+sealed class WeatherState extends Equatable {
+  const WeatherState();
 
   @override
   List<Object> get props => [];
 }
 
-final class CurentWeatherInitial extends CurrentWeatherState {}
+final class WeatherInitialState extends WeatherState {}
 
-final class CurrentWeatherLoading extends CurrentWeatherState {}
+final class WeatherLoadingState extends WeatherState {}
 
-final class CurrentWeatherLoaded extends CurrentWeatherState {}
+final class WeatherLoadedState extends WeatherState {
+  final CurrentWeather weather;
+  const WeatherLoadedState({required this.weather});
+}
+
+final class WeatherErrorState extends WeatherState {}
+
+final class NoLocationAccessState extends WeatherState {}

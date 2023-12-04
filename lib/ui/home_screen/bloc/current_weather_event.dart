@@ -1,17 +1,14 @@
 part of 'current_weather_bloc.dart';
 
-sealed class CurrentWeatherEvent extends Equatable {
-  const CurrentWeatherEvent();
+sealed class WeatherEvent extends Equatable {
+  const WeatherEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class CurrentWeatherFetchEvent extends CurrentWeatherEvent {
-  final double lat;
-  final double long;
-  const CurrentWeatherFetchEvent(
-    this.lat,
-    this.long,
-  );
-}
+class FetchWeatherInitialEvent extends WeatherEvent {}
+
+class FetchWeatherByPosition extends WeatherEvent {}
+
+class FetchWeatherByCity extends WeatherEvent {}

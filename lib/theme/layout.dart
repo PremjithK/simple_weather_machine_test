@@ -8,7 +8,7 @@ class PageLayout {
 }
 
 class MainCardLayout {
-  static const double borderRadius = 15;
+  static const double borderRadius = 25;
   static const EdgeInsetsGeometry padding = EdgeInsets.symmetric(
     horizontal: 20,
     vertical: 15,
