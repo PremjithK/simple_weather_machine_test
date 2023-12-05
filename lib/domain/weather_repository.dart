@@ -28,11 +28,13 @@ class WeatherRepository {
   }) async {
     final Response response = await _dio.get(
       '${Api.baseURL}/forecast',
+      options: Options(
+        persistentConnection: true,
+      ),
       queryParameters: {
         'appid': Api.key,
         'q': city,
         'units': unit,
-        'cnt': 5,
       },
     );
     return response;

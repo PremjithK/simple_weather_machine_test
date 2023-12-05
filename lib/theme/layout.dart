@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 
 class PageLayout {
   static const screenPadding = EdgeInsets.symmetric(
-    horizontal: 20,
-    vertical: 10,
+    horizontal: 25,
+    vertical: 20,
   );
 }
 
 class MainCardLayout {
   static const double borderRadius = 25;
   static const EdgeInsetsGeometry padding = EdgeInsets.symmetric(
-    horizontal: 20,
-    vertical: 15,
+    horizontal: 15,
+    vertical: 20,
   );
 }

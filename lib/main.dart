@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simple_weather/domain/weather_repository.dart';
+import 'package:simple_weather/theme/theme.dart';
 import 'package:simple_weather/ui/home_screen/bloc/weather_bloc.dart';
 import 'package:simple_weather/ui/home_screen/forecast_bloc/forecast_bloc.dart';
 import 'package:simple_weather/ui/home_screen/home_screen.dart';
@@ -32,12 +33,16 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => ForecastBloc(WeatherRepository())),
       ],
       child: ScreenUtilInit(
+        ensureScreenSize: true,
+        minTextAdapt: true,
         designSize: const Size(436, 842),
-        builder: (context, _) => const MaterialApp(
+        builder: (context, child) => MaterialApp(
           themeMode: ThemeMode.system,
+          theme: lightTheme,
+          darkTheme: darkTheme,
           debugShowCheckedModeBanner: false,
           title: 'Simple Weather App',
-          home: HomeScreen(),
+          home: const HomeScreen(),
         ),
       ),
     );

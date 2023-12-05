@@ -2,17 +2,20 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simple_weather/config/config.dart';
-// import 'package:simple_weather/domain/geo_locator.dart';
+import 'package:simple_weather/data/forecast_model.dart' as fc;
+import 'package:simple_weather/domain/geo_locator.dart';
 import 'package:simple_weather/domain/weather_repository.dart';
 import 'package:simple_weather/theme/layout.dart';
 import 'package:simple_weather/ui/home_screen/bloc/weather_bloc.dart';
 import 'package:simple_weather/ui/home_screen/forecast_bloc/forecast_bloc.dart';
+import 'package:simple_weather/ui/widgets/city_entry_field.dart';
 import 'package:simple_weather/ui/widgets/error_message_card.dart';
 import 'package:simple_weather/ui/widgets/forecast_card.dart';
 import 'package:simple_weather/ui/widgets/weather_display.dart';
 import 'package:simple_weather/ui/widgets/spacer.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:simple_weather/ui/widgets/weather_loading.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,22 +27,25 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late WeatherBloc weatherBloc;
   late ForecastBloc forecastBloc;
+
   @override
   void initState() {
     super.initState();
+    getDeviceLocation();
     weatherBloc = WeatherBloc(WeatherRepository());
     forecastBloc = ForecastBloc(WeatherRepository());
-    // getDeviceLocation();
     periodicFetch(weatherBloc);
   }
 
   void periodicFetch(WeatherBloc weatherBloc) {
-    Timer.periodic(const Duration(seconds: 10), (Timer timer) {
+    Timer.periodic(const Duration(minutes: 1), (Timer timer) {
       weatherBloc.add(FetchWeatherEvent());
     });
   }
 
-  static const Axis pageDirection = Axis.vertical;
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _cityController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -50,115 +56,104 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       child: Scaffold(
+        // Appbar
         appBar: AppBar(
           systemOverlayStyle: SystemUiOverlayStyle.dark,
-          backgroundColor: Colors.transparent,
           elevation: 0,
           scrolledUnderElevation: 0,
-          // actions: [IconButton(onPressed: () {}, icon: Icon(Icons.menu))],
+          backgroundColor: Colors.transparent,
+          toolbarHeight: 0,
         ),
         backgroundColor: Colors.transparent,
-        body: Padding(
-          padding: PageLayout.screenPadding,
-          child: Center(
-            child: Flex(
-              mainAxisAlignment: MainAxisAlignment.start,
-              direction: pageDirection,
-              children: [
-                // Current Weather
-                BlocBuilder<WeatherBloc, WeatherState>(
-                  builder: (_, state) {
-                    if (state is WeatherInitialState) {
-                      return const CircularProgressIndicator();
-                    } else if (state is WeatherLoadedState) {
-                      // final CurrentWeather weatherData = state.weather;
-                      print(state.weather.main.temp);
-                      return WeatherDisplay(
+        body: Center(
+          child: ListView(
+            padding: PageLayout.screenPadding,
+            physics: const BouncingScrollPhysics(),
+            children: [
+              hSpace(50),
+              // Current Weather
+              BlocBuilder<WeatherBloc, WeatherState>(
+                builder: (_, state) {
+                  if (state is WeatherInitialState) {
+                    return const WeatherLoadingCard();
+                  } else if (state is WeatherLoadedState) {
+                    return Center(
+                      child: WeatherDisplay(
                         weather: state.weather,
-                      );
-                    } else if (state is WeatherErrorState) {
-                      return ErrorMessageCard(
-                        message: state.message,
-                        icon: Icons.location_off_sharp,
-                      );
-                    } else if (state is NoLocationAccessState) {
-                      return const ErrorMessageCard(
-                        message: 'Location unavailable',
-                        icon: Icons.location_off_sharp,
-                      );
-                    }
-
+                      ),
+                    );
+                  } else if (state is WeatherErrorState) {
+                    return ErrorMessageCard(
+                      message: state.message,
+                      icon: Icons.location_off_sharp,
+                    );
+                  } else if (state is NoLocationAccessState) {
                     return const ErrorMessageCard(
                       message: 'Location unavailable',
                       icon: Icons.location_off_sharp,
                     );
-                  },
-                ),
-                hSpace(20),
-                // 5 Day Forecast
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    const Text('Forecast'),
-                    TextButton.icon(
-                      onPressed: () {
-                        forecastBloc.add(const ForecastFetchEvent(cityName: 'Kochi'));
-                      },
-                      icon: Icon(Icons.location_pin),
-                      label: Text('Change City'),
-                    ),
-                  ],
-                ),
-                BlocBuilder<ForecastBloc, ForecastState>(
-                  bloc: forecastBloc,
-                  builder: (context, state) {
-                    if (state is ForecastInitial) {
-                      return Text('No city selected');
-                    } else if (state is ForecastLoaded) {
-                      return ForecastCard(
-                        forecast: state.forecast,
-                      );
+                  }
+
+                  return const ErrorMessageCard(
+                    message: 'Unexpected error occured',
+                    icon: Icons.location_off_sharp,
+                  );
+                },
+              ),
+
+              // Forecast City Picker
+              hSpace(20),
+              Form(
+                key: _formKey,
+                child: CityEntryField(
+                  controller: _cityController,
+                  onSubmit: () {
+                    if (_formKey.currentState!.validate()) {
+                      forecastBloc.add(ForecastFetchEvent(
+                        cityName: _cityController.text.trim(),
+                      ));
                     }
-                    return Text('none');
                   },
                 ),
+              ),
+              // 5 Day Forecast
+              hSpace(20),
+              BlocBuilder<ForecastBloc, ForecastState>(
+                bloc: forecastBloc,
+                builder: (context, state) {
+                  if (state is ForecastInitial) {
+                    return const SizedBox();
+                  } else if (state is ForecastLoaded) {
+                    final fc.ForecastData data = state.forecast;
 
-                // Quotes section
-                const Spacer()
-              ],
-            ),
+                    return SizedBox(
+                      width: 360.w,
+                      child: ListView.builder(
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: data.list.length,
+                        itemBuilder: (context, index) {
+                          final fIndex = index % 8 == 0;
+                          final item = data.list[index];
+                          return (fIndex) ? ForecastCard(data: item) : const SizedBox();
+                        },
+                      ),
+                    );
+                  } else if (state is ForecastError) {
+                    return ErrorMessageCard(
+                      message: state.message,
+                      icon: Icons.error,
+                    );
+                  }
+                  return const ErrorMessageCard(
+                    message: 'Unexpected Error Occured',
+                    icon: Icons.error,
+                  );
+                },
+              ),
+            ],
           ),
-        ),
-      ),
-    );
-  }
-
-  _setUnits() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('unit', 'metric');
-  }
-
-  _cityEntryDialog() {
-    final _cityController = TextEditingController();
-    return AlertDialog(
-      backgroundColor: Colors.transparent,
-      content: Container(
-        child: Column(
-          children: [
-            TextFormField(
-              controller: _cityController,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                forecastBloc.add(
-                  ForecastFetchEvent(
-                    cityName: _cityController.text.trim(),
-                  ),
-                );
-              },
-              child: const Text('Select'),
-            )
-          ],
         ),
       ),
     );

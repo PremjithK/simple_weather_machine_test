@@ -4,8 +4,8 @@ Map<String, Color> colorsFromWeather({required String weather}) {
   switch (weather) {
     case 'Clouds':
       return {
-        'text': Colors.brown.shade600,
-        'bg': Colors.brown.shade300,
+        'text': Color.fromARGB(255, 98, 75, 66),
+        'bg': const Color.fromARGB(255, 162, 142, 135),
       };
     case 'Rain':
       return {
