@@ -38,20 +38,22 @@ class ErrorMessageCard extends StatelessWidget {
                 color: Colors.red.shade100,
               ),
               wSpace(10),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    message,
-                    style: GoogleFonts.inter(
-                      color: Colors.red.shade100,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16.sp,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  )
-                ],
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      message,
+                      style: GoogleFonts.inter(
+                        color: Colors.red.shade100,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16.sp,
+                      ),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    )
+                  ],
+                ),
               ),
             ],
           ),

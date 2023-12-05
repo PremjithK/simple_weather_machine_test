@@ -34,12 +34,12 @@ class _HomeScreenState extends State<HomeScreen> {
     getDeviceLocation();
     weatherBloc = WeatherBloc(WeatherRepository());
     forecastBloc = ForecastBloc(WeatherRepository());
-    weatherBloc.add(FetchWeatherEvent());
+
     periodicFetch(weatherBloc);
   }
 
   void periodicFetch(WeatherBloc weatherBloc) {
-    Timer.periodic(const Duration(minutes: 1), (Timer timer) {
+    Timer.periodic(const Duration(seconds: 30), (Timer timer) {
       weatherBloc.add(FetchWeatherEvent());
     });
   }
@@ -65,34 +65,33 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               hSpace(50),
               // Current Weather
-              BlocBuilder<WeatherBloc, WeatherState>(
-                builder: (_, state) {
-                  if (state is WeatherInitialState) {
-                    return const WeatherLoadingCard();
-                  } else if (state is WeatherLoadedState) {
-                    return Center(
-                      child: WeatherDisplay(
-                        weather: state.weather,
-                      ),
-                    );
-                  } else if (state is WeatherErrorState) {
-                    return ErrorMessageCard(
-                      message: state.message,
-                      icon: Icons.location_off_sharp,
-                    );
-                  } else if (state is NoLocationAccessState) {
-                    return const ErrorMessageCard(
-                      message: 'Location unavailable',
-                      icon: Icons.location_off_sharp,
-                    );
-                  }
 
-                  return const ErrorMessageCard(
-                    message: 'Unexpected error occured',
+              BlocBuilder<WeatherBloc, WeatherState>(builder: (_, state) {
+                if (state is WeatherLoadingState) {
+                  return const WeatherLoadingCard();
+                } else if (state is WeatherLoadedState) {
+                  return Center(
+                    child: WeatherDisplay(
+                      weather: state.weather,
+                    ),
+                  );
+                } else if (state is WeatherErrorState) {
+                  return ErrorMessageCard(
+                    message: state.message,
                     icon: Icons.location_off_sharp,
                   );
-                },
-              ),
+                } else if (state is NoLocationAccessState) {
+                  return const ErrorMessageCard(
+                    message: 'Location unavailable',
+                    icon: Icons.location_off_sharp,
+                  );
+                }
+
+                return const ErrorMessageCard(
+                  message: 'Could not get location data',
+                  icon: Icons.location_off_sharp,
+                );
+              }),
 
               // Forecast City Picker
               hSpace(20),
@@ -125,6 +124,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       'Enter a city name to get forecast',
                       style: GoogleFonts.inter(),
                     ));
+                  } else if (state is ForecastLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
                   } else if (state is ForecastLoaded) {
                     final fc.ForecastData data = state.forecast;
 

@@ -71,7 +71,7 @@ class ForecastCard extends StatelessWidget {
                         //date field
                         DateFormat('yyyy-MM-dd').format(data.dtTxt),
                         style: GoogleFonts.inter(
-                          color: Colors.white.withOpacity(0.75),
+                          color: Colors.white.withOpacity(0.5),
                         ),
                       ),
                       hSpace(5),
@@ -92,7 +92,7 @@ class ForecastCard extends StatelessWidget {
                             'MAX ${data.main.tempMax.round().toString()}°',
                             style: GoogleFonts.inter(
                               fontSize: 13.sp,
-                              color: Colors.white.withOpacity(0.75),
+                              color: Colors.white.withOpacity(0.5),
                             ),
                           ),
                           wSpace(10),
@@ -101,7 +101,7 @@ class ForecastCard extends StatelessWidget {
                             'MIN ${data.main.tempMin.round().toString()}°',
                             style: GoogleFonts.inter(
                               fontSize: 13.sp,
-                              color: Colors.white.withOpacity(0.75),
+                              color: Colors.white.withOpacity(0.5),
                             ),
                           ),
                         ],

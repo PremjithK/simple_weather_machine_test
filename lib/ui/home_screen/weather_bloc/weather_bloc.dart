@@ -23,13 +23,14 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     FetchWeatherEvent event,
     Emitter<WeatherState> emit,
   ) async {
-    print('Fetch Triggered');
+    emit(WeatherLoadingState());
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String unit = prefs.getString('unit') ?? 'metric';
       if (!await Geolocator.isLocationServiceEnabled()) {
         emit(NoLocationAccessState());
       }
+
       final Position pos = await Geolocator.getCurrentPosition();
       final Response response = await _repository.fetchWeather(
         pos.latitude,
@@ -45,13 +46,12 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       } else if (response.statusCode == 500) {
         emit(
           const WeatherErrorState(
-            message: 'Server error occured, please try again later',
+            message: 'Server error occured. Try again later',
           ),
         );
       }
     } catch (err) {
-      print(err);
-      emit(const WeatherErrorState(message: 'Unexpected error occured'));
+      emit(const WeatherErrorState(message: 'Location Services are disabled'));
     }
   }
 }

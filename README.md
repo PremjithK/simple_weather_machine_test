@@ -1,16 +1,12 @@
 # simple_weather
 
-A new Flutter project.
+A Flutter weather app that provides weather information based on the user's location using the Geolocator package. The app uses the BLoC pattern for state management and fetches weather data from the OpenWeatherMap API.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- Get real-time weather information based on the user's location.
+- View current weather details including temperature, humidity, wind speed, and more.
+- 5-day weather forecast for a user entered city (Enter a city name in the text field to get that city's forecast).
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Might have to hot restart the app if any Location permission related issue occurs
+- I dont have any way to test this app for iOS. (I dont don't have any mac device or XCode)

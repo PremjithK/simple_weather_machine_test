@@ -9,6 +9,8 @@ sealed class ForecastState extends Equatable {
 
 final class ForecastInitial extends ForecastState {}
 
+final class ForecastLoading extends ForecastState {}
+
 final class ForecastLoaded extends ForecastState {
   final ForecastData forecast;
 

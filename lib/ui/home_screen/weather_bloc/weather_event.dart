@@ -11,3 +11,4 @@ class FetchWeatherInitialEvent extends WeatherEvent {}
 
 class FetchWeatherEvent extends WeatherEvent {}
 
+class NoLocationAccessEvent extends WeatherEvent {}

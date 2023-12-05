@@ -25,14 +25,14 @@ class CityEntryField extends StatelessWidget {
         filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.4),
+            color: Colors.grey.shade600.withOpacity(0.4),
             borderRadius: BorderRadius.circular(
               MainCardLayout.borderRadius,
             ),
           ),
           padding: const EdgeInsets.symmetric(
             horizontal: 20,
-            vertical: 7.5,
+            vertical: 5,
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -44,10 +44,11 @@ class CityEntryField extends StatelessWidget {
                   controller: controller,
                   style: GoogleFonts.inter(
                     color: Colors.white,
-                    fontWeight: FontWeight.w600,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w500,
                   ),
                   decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 5),
                     isDense: true,
                     errorMaxLines: 1,
                     hintText: 'Enter City Name',
@@ -76,12 +77,12 @@ class CityEntryField extends StatelessWidget {
                 style: IconButton.styleFrom(
                   backgroundColor: Colors.white,
                 ),
-                splashRadius: 15,
+                splashRadius: 20,
                 color: Colors.black,
                 onPressed: onSubmit,
                 icon: const Icon(
                   Icons.send,
-                  size: 20,
+                  size: 18,
                 ),
               )
             ],

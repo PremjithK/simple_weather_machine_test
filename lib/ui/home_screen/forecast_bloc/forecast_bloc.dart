@@ -26,6 +26,7 @@ class ForecastBloc extends Bloc<ForecastEvent, ForecastState> {
     }
 
     try {
+      emit(ForecastLoading());
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String unit = prefs.getString('unit') ?? 'metric';
 

@@ -83,7 +83,7 @@ class WeatherDisplay extends StatelessWidget {
               children: [
                 Text('Today', style: mainHeading),
                 Text(
-                  DateFormat('yyyy-MM-dd hh:mm a').format(DateTime.now()),
+                  DateFormat('EEEE hh:mm a').format(DateTime.now()),
                   style: mainDate,
                 ),
                 hSpace(10),
