@@ -51,67 +51,87 @@ class WeatherDisplay extends StatelessWidget {
       fontSize: 16.sp,
       color: colorsFromWeather(weather: weather.weather[0].main)['text'],
     );
-    return Container(
-      width: 400.w,
-      padding: MainCardLayout.padding,
-      decoration: BoxDecoration(
-        color: colorsFromWeather(
+    return BackdropFilter(
+      filter: ColorFilter.mode(
+        colorsFromWeather(
           weather: weather.weather[0].main,
-        )['bg'],
-        border: Border.all(
-          width: 1,
-          color: Colors.white.withOpacity(0.5),
-        ),
-        borderRadius: BorderRadius.circular(MainCardLayout.borderRadius),
+        )['bg']!
+            .withOpacity(0.5),
+        BlendMode.color,
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('Today', style: mainHeading),
-          Text('${DateTime.now()}', style: mainDate),
-          hSpace(10),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                showWeatherIcon(name: weather.weather[0].main),
-                color: colorsFromWeather(weather: weather.weather[0].main)['text'],
-                size: 80,
-              ),
-              wSpace(20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    '${weather.main.temp.round()}°',
-                    style: mainTemperature,
-                    overflow: TextOverflow.fade,
-                  ),
-                  SizedBox(
-                    height: 50.h,
-                    child: Text('C', style: unitSign),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Text(
-            weather.weather[0].main,
-            style: mainWeather,
-          ),
-          hSpace(10),
-          Text(
-            weather.name,
-            style: mainLocationName,
-          ),
-          Text(
-            'Feels like ${weather.main.feelsLike}°C',
-            style: mainFeelsLike,
-          ),
-        ],
+      child: Container(
+        width: 360.w,
+        padding: MainCardLayout.padding,
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.25),
+              blurRadius: 10,
+            ),
+          ],
+          color: colorsFromWeather(
+            weather: weather.weather[0].main,
+          )['bg'],
+          borderRadius: BorderRadius.circular(MainCardLayout.borderRadius),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Today', style: mainHeading),
+            Text('${DateTime.now()}', style: mainDate),
+            hSpace(10),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  showWeatherIcon(name: weather.weather[0].main),
+                  color: colorsFromWeather(weather: weather.weather[0].main)['text'],
+                  size: 80,
+                ),
+                wSpace(20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      '${weather.main.temp.round()}°',
+                      style: mainTemperature,
+                      overflow: TextOverflow.fade,
+                    ),
+                    SizedBox(
+                      height: 50.h,
+                      child: Text('C', style: unitSign),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Text(
+              weather.weather[0].main,
+              style: mainWeather,
+            ),
+            hSpace(10),
+            Text(
+              weather.name,
+              style: mainLocationName,
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Feels like ${weather.main.feelsLike.round()}°C',
+                  style: mainFeelsLike,
+                ),
+                Text(
+                  ' | ${weather.weather[0].description}',
+                  style: mainFeelsLike,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

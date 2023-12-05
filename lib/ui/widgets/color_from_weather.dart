@@ -4,18 +4,18 @@ Map<String, Color> colorsFromWeather({required String weather}) {
   switch (weather) {
     case 'Clouds':
       return {
-        'text': Colors.grey.shade500,
-        'bg': Colors.grey.shade900,
+        'text': Colors.brown.shade600,
+        'bg': Colors.brown.shade300,
       };
     case 'Rain':
       return {
-        'text': Colors.blue.shade600.withOpacity(0.75),
-        'bg': Colors.white.withOpacity(0.5),
+        'text': Color.fromARGB(255, 42, 70, 109),
+        'bg': Color.fromARGB(255, 86, 109, 144),
       };
     case 'Sunny':
       return {
-        'bg': Colors.orange.withOpacity(0.75),
-        'text': Colors.orange.shade800,
+        'bg': Colors.orange.shade300,
+        'text': Colors.orange.shade700,
       };
     case 'Snow':
       return {

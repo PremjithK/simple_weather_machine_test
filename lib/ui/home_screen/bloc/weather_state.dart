@@ -1,4 +1,4 @@
-part of 'current_weather_bloc.dart';
+part of 'weather_bloc.dart';
 
 sealed class WeatherState extends Equatable {
   const WeatherState();
@@ -16,6 +16,10 @@ final class WeatherLoadedState extends WeatherState {
   const WeatherLoadedState({required this.weather});
 }
 
-final class WeatherErrorState extends WeatherState {}
+final class WeatherErrorState extends WeatherState {
+  final String message;
+
+  const WeatherErrorState({required this.message});
+}
 
 final class NoLocationAccessState extends WeatherState {}

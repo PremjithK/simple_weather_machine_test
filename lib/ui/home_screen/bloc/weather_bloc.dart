@@ -9,41 +9,48 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_weather/data/current_weather_model.dart';
 import 'package:simple_weather/domain/weather_repository.dart';
 
-part 'current_weather_event.dart';
-part 'current_weather_state.dart';
+part 'weather_event.dart';
+part 'weather_state.dart';
 
 class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   final WeatherRepository _repository;
 
   WeatherBloc(this._repository) : super(WeatherInitialState()) {
-    on<FetchWeatherByPosition>(_fetchWeatherByPosition);
+    on<FetchWeatherEvent>(_fetchWeather);
   }
 
-  FutureOr<void> _fetchWeatherByPosition(
-    FetchWeatherByPosition event,
+  FutureOr<void> _fetchWeather(
+    FetchWeatherEvent event,
     Emitter<WeatherState> emit,
   ) async {
-    // emit(CurrentWeatherLoading());
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String unit = prefs.getString('unit') ?? 'metric';
-      if (!await Geolocator.isLocationServiceEnabled()) emit(NoLocationAccessState());
+      if (!await Geolocator.isLocationServiceEnabled()) {
+        emit(NoLocationAccessState());
+      }
       final Position pos = await Geolocator.getCurrentPosition();
-      final Response response = await _repository.getWeatherByLocation(
-        lat: pos.latitude,
-        long: pos.longitude,
-        unit: unit,
+      final Response response = await _repository.fetchWeather(
+        pos.latitude,
+        pos.longitude,
+        unit,
       );
 
       if (response.statusCode == 200) {
-        final CurrentWeather data = currentWeatherFromJson(jsonEncode(response.data));
+        final CurrentWeather data = currentWeatherFromJson(
+          jsonEncode(response.data),
+        );
         emit(WeatherLoadedState(weather: data));
-      } else {
-        emit(WeatherErrorState());
+      } else if (response.statusCode == 500) {
+        emit(
+          const WeatherErrorState(
+            message: 'Server error occured, please try again later',
+          ),
+        );
       }
     } catch (err) {
       print(err);
-      emit(WeatherErrorState());
+      emit(const WeatherErrorState(message: 'Unexpected error occured'));
     }
   }
 }

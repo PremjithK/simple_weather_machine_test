@@ -259,7 +259,7 @@ final podValues = EnumValues({"d": Pod.D, "n": Pod.N});
 class Weather {
   int id;
   MainEnum main;
-  String description;
+  Description description;
   Icon icon;
 
   Weather({
@@ -272,22 +272,39 @@ class Weather {
   factory Weather.fromJson(Map<String, dynamic> json) => Weather(
         id: json["id"],
         main: mainEnumValues.map[json["main"]]!,
-        description: json["description"],
+        description: descriptionValues.map[json["description"]]!,
         icon: iconValues.map[json["icon"]]!,
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "main": mainEnumValues.reverse[main],
-        "description": description,
+        "description": descriptionValues.reverse[description],
         "icon": iconValues.reverse[icon],
       };
 }
 
-enum Icon { THE_03_D, THE_04_D, THE_04_N, THE_10_D, THE_10_N }
+enum Description { BROKEN_CLOUDS, FEW_CLOUDS, LIGHT_RAIN, MODERATE_RAIN, OVERCAST_CLOUDS, SCATTERED_CLOUDS }
 
-final iconValues = EnumValues(
-    {"03d": Icon.THE_03_D, "04d": Icon.THE_04_D, "04n": Icon.THE_04_N, "10d": Icon.THE_10_D, "10n": Icon.THE_10_N});
+final descriptionValues = EnumValues({
+  "broken clouds": Description.BROKEN_CLOUDS,
+  "few clouds": Description.FEW_CLOUDS,
+  "light rain": Description.LIGHT_RAIN,
+  "moderate rain": Description.MODERATE_RAIN,
+  "overcast clouds": Description.OVERCAST_CLOUDS,
+  "scattered clouds": Description.SCATTERED_CLOUDS
+});
+
+enum Icon { THE_02_D, THE_03_D, THE_04_D, THE_04_N, THE_10_D, THE_10_N }
+
+final iconValues = EnumValues({
+  "02d": Icon.THE_02_D,
+  "03d": Icon.THE_03_D,
+  "04d": Icon.THE_04_D,
+  "04n": Icon.THE_04_N,
+  "10d": Icon.THE_10_D,
+  "10n": Icon.THE_10_N
+});
 
 enum MainEnum { CLOUDS, RAIN }
 

@@ -1,4 +1,4 @@
-part of 'current_weather_bloc.dart';
+part of 'weather_bloc.dart';
 
 sealed class WeatherEvent extends Equatable {
   const WeatherEvent();
@@ -9,6 +9,5 @@ sealed class WeatherEvent extends Equatable {
 
 class FetchWeatherInitialEvent extends WeatherEvent {}
 
-class FetchWeatherByPosition extends WeatherEvent {}
+class FetchWeatherEvent extends WeatherEvent {}
 
-class FetchWeatherByCity extends WeatherEvent {}
