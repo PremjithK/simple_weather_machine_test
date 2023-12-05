@@ -5,7 +5,7 @@ A Flutter weather app that provides weather information based on the user's loca
 ## Features
 
 - Get real-time weather information based on the user's location.
-- View current weather details including temperature, humidity, wind speed, and more.
+- View current weather details including temperature, feels like and summary.
 - 5-day weather forecast for a user entered city (Enter a city name in the text field to get that city's forecast).
 
 - Re-launch or Hot Restart the app incase of any Location permission related issue.
