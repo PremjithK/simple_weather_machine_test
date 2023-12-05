@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class PageLayout {
   static const screenPadding = EdgeInsets.symmetric(
-    horizontal: 25,
+    horizontal: 30,
     vertical: 20,
   );
 }

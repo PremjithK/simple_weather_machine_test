@@ -6,18 +6,27 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_weather/theme/layout.dart';
 import 'package:simple_weather/ui/widgets/spacer.dart';
 
-class CityEntryField extends StatelessWidget {
+class CityEntryField extends StatefulWidget {
   const CityEntryField({
     super.key,
     required this.controller,
     required this.onSubmit,
     required this.autofillEntries,
+    this.onChanged,
+    this.focusNode,
   });
 
   final List<String> autofillEntries;
   final TextEditingController controller;
+  final void Function(String)? onChanged;
   final void Function() onSubmit;
+  final FocusNode? focusNode;
 
+  @override
+  State<CityEntryField> createState() => _CityEntryFieldState();
+}
+
+class _CityEntryFieldState extends State<CityEntryField> {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -31,7 +40,7 @@ class CityEntryField extends StatelessWidget {
             ),
           ),
           padding: const EdgeInsets.symmetric(
-            horizontal: 20,
+            horizontal: 10,
             vertical: 5,
           ),
           child: Row(
@@ -41,14 +50,15 @@ class CityEntryField extends StatelessWidget {
               Expanded(
                 child: TextFormField(
                   expands: false,
-                  controller: controller,
+                  controller: widget.controller,
                   style: GoogleFonts.inter(
                     color: Colors.white,
                     fontSize: 18.sp,
                     fontWeight: FontWeight.w500,
                   ),
+                  canRequestFocus: true,
                   decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 5),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 15),
                     isDense: true,
                     errorMaxLines: 1,
                     hintText: 'Enter City Name',
@@ -59,10 +69,12 @@ class CityEntryField extends StatelessWidget {
                     errorStyle: GoogleFonts.inter(
                       fontSize: 12.sp,
                       height: 0,
+                      color: Colors.red.shade400,
                     ),
                   ),
-                  autofillHints: autofillEntries,
-                  keyboardType: TextInputType.text,
+                  focusNode: widget.focusNode,
+                  cursorColor: Colors.white,
+                  autofillHints: widget.autofillEntries,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
                     if (value == '') {
@@ -70,6 +82,7 @@ class CityEntryField extends StatelessWidget {
                     }
                     return null;
                   },
+                  onChanged: widget.onChanged,
                 ),
               ),
               wSpace(15),
@@ -79,7 +92,7 @@ class CityEntryField extends StatelessWidget {
                 ),
                 splashRadius: 20,
                 color: Colors.black,
-                onPressed: onSubmit,
+                onPressed: widget.onSubmit,
                 icon: const Icon(
                   Icons.send,
                   size: 18,

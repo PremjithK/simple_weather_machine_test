@@ -15,6 +15,8 @@ class ForecastBloc extends Bloc<ForecastEvent, ForecastState> {
   final WeatherRepository _repository;
   ForecastBloc(this._repository) : super(ForecastInitial()) {
     on<ForecastFetchEvent>(_fetchForecast);
+    on<ForecastClearEvent>(_forecastClear);
+    // _forecastClear
   }
 
   FutureOr<void> _fetchForecast(
@@ -35,23 +37,28 @@ class ForecastBloc extends Bloc<ForecastEvent, ForecastState> {
         city: cityName,
         unit: unit,
       );
-      print(response.statusCode);
+
       if (response.statusCode == 200) {
         final ForecastData data = forecastDataFromJson(
           jsonEncode(response.data),
         );
         emit(ForecastLoaded(forecast: data));
-      } else if (response.statusCode == 404) {
-        emit(const ForecastError(message: 'City not found'));
       }
     } on DioException catch (e) {
       if (e.response!.statusCode == 404) {
-        emit(ForecastError(message: 'City Not Found'));
+        emit(const ForecastError(message: 'City Not Found'));
       }
     } catch (e) {
       if (e is DioException) return;
       print(e);
       emit(const ForecastError(message: 'Unable to get forecast'));
     }
+  }
+
+  FutureOr<void> _forecastClear(
+    ForecastClearEvent event,
+    Emitter<ForecastState> emit,
+  ) async {
+    emit(ForecastInitial());
   }
 }

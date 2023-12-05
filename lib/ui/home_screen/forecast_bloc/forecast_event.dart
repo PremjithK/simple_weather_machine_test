@@ -14,3 +14,5 @@ class ForecastFetchEvent extends ForecastEvent {
 
   const ForecastFetchEvent({required this.cityName});
 }
+
+class ForecastClearEvent extends ForecastEvent {}
