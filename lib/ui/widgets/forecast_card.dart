@@ -25,7 +25,7 @@ class ForecastCard extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(MainCardLayout.borderRadius),
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Container(
             height: 100.h,
             padding: const EdgeInsets.all(5),
@@ -33,7 +33,7 @@ class ForecastCard extends StatelessWidget {
               color: colorsFromWeather(
                 weather: status,
               )['bg']!
-                  .withOpacity(0.5),
+                  .withOpacity(0.25),
               borderRadius: BorderRadius.circular(
                 MainCardLayout.borderRadius,
               ),
@@ -69,8 +69,9 @@ class ForecastCard extends StatelessWidget {
                     children: [
                       Text(
                         //date field
-                        DateFormat('yyyy-MM-dd').format(data.dtTxt),
+                        DateFormat('EEEE dd').format(data.dtTxt),
                         style: GoogleFonts.inter(
+                          fontSize: 16.sp,
                           color: Colors.white.withOpacity(0.5),
                         ),
                       ),

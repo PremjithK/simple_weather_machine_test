@@ -6,4 +6,5 @@ class Api {
 class Assets {
   static String get snowyBackground => 'assets/images/snow_mist_bg.jpg';
   static String get fieldBackground => 'assets/images/fields_bg.jpg';
+  static String get autumBackground => 'assets/images/autum.jpg';
 }

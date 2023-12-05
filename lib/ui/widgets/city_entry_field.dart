@@ -34,7 +34,7 @@ class _CityEntryFieldState extends State<CityEntryField> {
         filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.grey.shade600.withOpacity(0.4),
+            color: Colors.black.withOpacity(0.15),
             borderRadius: BorderRadius.circular(
               MainCardLayout.borderRadius,
             ),

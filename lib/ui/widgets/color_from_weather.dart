@@ -1,31 +1,36 @@
 import 'package:flutter/material.dart';
 
 Map<String, Color> colorsFromWeather({required String weather}) {
-  switch (weather) {
-    case 'Clouds':
+  switch (weather.toUpperCase()) {
+    case 'CLOUDS':
       return {
-        'bg': Colors.grey.shade500,
-        'text': Colors.grey.shade700,
+        'bg': Colors.grey.shade700,
+        'text': Colors.grey.shade500,
       };
-    case 'Rain':
+    case 'RAIN':
       return {
-        'text': Color.fromARGB(255, 42, 70, 109),
-        'bg': Color.fromARGB(255, 86, 109, 144),
+        'text': Colors.white,
+        'bg': const Color.fromARGB(255, 35, 61, 92),
       };
-    case 'Sunny':
+    case 'SUNNY':
       return {
-        'bg': Colors.brown.shade300,
+        'bg': const Color.fromARGB(255, 69, 35, 23),
         'text': Colors.brown.shade600,
       };
-    case 'Snow':
+    case 'SNOW':
       return {
-        'bg': Colors.blue.shade100.withOpacity(0.75),
-        'text': Colors.blue.shade300,
+        'bg': const Color.fromARGB(255, 72, 87, 100),
+        'text': const Color.fromARGB(255, 74, 94, 111),
+      };
+    case 'CLEAR':
+      return {
+        'bg': const Color.fromARGB(255, 21, 30, 39),
+        'text': const Color.fromARGB(255, 28, 45, 60),
       };
     default:
       return {
-        'text': Colors.grey.withOpacity(0.75),
-        'bg': Colors.grey.shade600,
+        'text': Colors.black,
+        'bg': Colors.black,
       };
   }
 }

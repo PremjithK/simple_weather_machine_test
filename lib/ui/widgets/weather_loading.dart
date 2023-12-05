@@ -10,37 +10,32 @@ class WeatherLoadingCard extends StatelessWidget {
   const WeatherLoadingCard({super.key});
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
-        child: Container(
-          width: 360.w,
-          height: 280.h,
-          padding: MainCardLayout.padding,
-          decoration: BoxDecoration(
-            color: Colors.grey.shade500.withOpacity(0.75),
-            borderRadius: BorderRadius.circular(MainCardLayout.borderRadius),
+    return Container(
+      width: 360.w,
+      height: 280.h,
+      padding: MainCardLayout.padding,
+      decoration: BoxDecoration(
+        color: const Color(0xFFAC736A),
+        borderRadius: BorderRadius.circular(MainCardLayout.borderRadius),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(
+            child: CircularProgressIndicator(
+              color: Color(0xFFF6C8A4),
+            ),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                child: CircularProgressIndicator(
-                  color: Colors.grey.shade800,
-                ),
-              ),
-              hSpace(10),
-              Text(
-                'Getting location info...',
-                style: GoogleFonts.inter(
-                  color: Colors.grey.shade800,
-                  fontSize: 20.sp,
-                ),
-              )
-            ],
-          ),
-        ),
+          hSpace(10),
+          Text(
+            'Getting location info...',
+            style: GoogleFonts.inter(
+              color: const Color(0xFFF6C8A4),
+              fontSize: 20.sp,
+            ),
+          )
+        ],
       ),
     );
   }

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,129 +16,111 @@ class WeatherDisplay extends StatelessWidget {
   final CurrentWeather weather;
   @override
   Widget build(BuildContext context) {
-    Color textColor = colorsFromWeather(weather: weather.weather[0].main)['text']!;
-    final TextStyle mainHeading = GoogleFonts.inter(
+    Color textColor = const Color(0xFFF6C8A4);
+    final TextStyle mainHeading = GoogleFonts.poppins(
       fontSize: 18.sp,
       fontWeight: FontWeight.w600,
       color: textColor,
     );
-    final TextStyle unitSign = GoogleFonts.inter(
-      fontSize: 20.sp,
-      fontWeight: FontWeight.bold,
+
+    final TextStyle mainTemperature = GoogleFonts.poppins(
+      fontSize: 90.sp,
+      fontWeight: FontWeight.w600,
       color: textColor,
+      height: 1.1,
     );
-    final TextStyle mainTemperature = GoogleFonts.inter(
-      fontSize: 80.sp,
-      fontWeight: FontWeight.bold,
-      color: textColor,
-      height: 0,
-      letterSpacing: -2.5,
-    );
-    final TextStyle mainWeather = GoogleFonts.inter(
+    final TextStyle mainWeather = GoogleFonts.poppins(
       fontSize: 18.sp,
       fontWeight: FontWeight.bold,
       color: textColor,
     );
-    final TextStyle mainLocationName = GoogleFonts.inter(
+    final TextStyle mainLocationName = GoogleFonts.poppins(
       fontSize: 18.sp,
       fontWeight: FontWeight.bold,
       color: textColor,
     );
-    final TextStyle mainDate = GoogleFonts.inter(
+    final TextStyle mainDate = GoogleFonts.poppins(
       fontSize: 16.sp,
       fontWeight: FontWeight.normal,
       color: textColor,
     );
-    final TextStyle mainFeelsLike = GoogleFonts.inter(
+    final TextStyle mainFeelsLike = GoogleFonts.poppins(
       fontSize: 16.sp,
       color: textColor,
     );
 
     //! UI
-    return BackdropFilter(
-      filter: ColorFilter.mode(
-        colorsFromWeather(weather: weather.weather[0].main)['bg']!,
-        BlendMode.colorBurn,
-      ),
-      child: ClipRRect(
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Container(
-            width: 360,
-            height: 280.h,
-            padding: MainCardLayout.padding,
-            decoration: BoxDecoration(
-              color: colorsFromWeather(
-                weather: weather.weather[0].main,
-              )['bg']!
-                  .withOpacity(0.5),
-              borderRadius: BorderRadius.circular(
-                MainCardLayout.borderRadius + 5,
-              ),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Today', style: mainHeading),
-                Text(
-                  DateFormat('EEEE hh:mm a').format(DateTime.now()),
-                  style: mainDate,
-                ),
-                hSpace(10),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      showWeatherIcon(name: weather.weather[0].main),
-                      color: textColor,
-                      size: 80,
-                    ),
-                    wSpace(20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          '${weather.main.temp.round()}°',
-                          style: mainTemperature,
-                          overflow: TextOverflow.fade,
-                        ),
-                        SizedBox(
-                          height: 50.h,
-                          child: Text('C', style: unitSign),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Text(
-                  weather.weather[0].main,
-                  style: mainWeather,
-                ),
-                hSpace(10),
-                Text(
-                  weather.name,
-                  style: mainLocationName,
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Feels like ${weather.main.feelsLike.round()}°C',
-                      style: mainFeelsLike,
-                    ),
-                    Text(
-                      ' | ${weather.weather[0].description}',
-                      style: mainFeelsLike,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
+    return Container(
+      width: 360,
+      height: 280.h,
+      padding: MainCardLayout.padding,
+      decoration: BoxDecoration(
+        color: const Color(0xFFAC736A),
+        borderRadius: BorderRadius.circular(
+          MainCardLayout.borderRadius + 5,
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            blurRadius: 15,
+          )
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('Today', style: mainHeading),
+          hSpace(5),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                showWeatherIcon(name: weather.weather[0].main),
+                color: textColor,
+                size: 80,
+              ),
+              wSpace(20),
+              Text(
+                // Large Temperature font
+                '${weather.main.temp.round()}°',
+                style: mainTemperature,
+                overflow: TextOverflow.fade,
+              ),
+            ],
+          ),
+          Text(
+            // Weather state name
+            weather.weather[0].main,
+            style: mainWeather,
+          ),
+          Text(
+            // DateTime
+            DateFormat('EEEE dd').format(DateTime.now()),
+            style: mainDate,
+          ),
+          hSpace(10),
+          Text(
+            // Location name (from geolocator)
+            weather.name,
+            style: mainLocationName,
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                // feels like temperature
+                'Feels like ${weather.main.feelsLike.round()}°C',
+                style: mainFeelsLike,
+              ),
+              Text(
+                // weather description
+                ' | ${weather.weather[0].description}',
+                style: mainFeelsLike,
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

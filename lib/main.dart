@@ -8,16 +8,15 @@ import 'package:simple_weather/ui/home_screen/weather_bloc/weather_bloc.dart';
 import 'package:simple_weather/ui/home_screen/forecast_bloc/forecast_bloc.dart';
 import 'package:simple_weather/ui/home_screen/home_screen.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
-      systemNavigationBarIconBrightness: Brightness.dark,
-      statusBarIconBrightness: Brightness.dark,
+      systemNavigationBarIconBrightness: Brightness.light,
+      statusBarIconBrightness: Brightness.light,
       statusBarColor: Colors.transparent,
     ),
   );
-
   runApp(const MyApp());
 }
 

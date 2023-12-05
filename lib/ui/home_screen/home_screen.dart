@@ -14,6 +14,7 @@ import 'package:simple_weather/ui/widgets/city_entry_field.dart';
 import 'package:simple_weather/ui/widgets/error_message_card.dart';
 import 'package:simple_weather/ui/widgets/forecast_card.dart';
 import 'package:simple_weather/ui/widgets/forecast_loading_indicator.dart';
+import 'package:simple_weather/ui/widgets/notice_text.dart';
 import 'package:simple_weather/ui/widgets/weather_display.dart';
 import 'package:simple_weather/ui/widgets/spacer.dart';
 import 'package:simple_weather/ui/widgets/weather_loading.dart';
@@ -39,8 +40,9 @@ class _HomeScreenState extends State<HomeScreen> {
     periodicFetch(weatherBloc);
   }
 
+  //^ Periodically Fetching current weather information
   void periodicFetch(WeatherBloc weatherBloc) {
-    Timer.periodic(const Duration(seconds: 30), (Timer timer) {
+    Timer.periodic(const Duration(seconds: 60), (Timer timer) {
       weatherBloc.add(FetchWeatherEvent());
     });
   }
@@ -53,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(Assets.fieldBackground),
+          image: AssetImage(Assets.autumBackground),
           fit: BoxFit.cover,
         ),
       ),
@@ -63,45 +65,47 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: PageLayout.screenPadding,
           physics: const BouncingScrollPhysics(),
           children: [
-            hSpace(60),
+            hSpace(40),
             Center(
               child: Text(
                 'Simple Weather App',
                 style: GoogleFonts.instrumentSans(
                   fontSize: 20.sp,
-                  color: Colors.grey.shade600.withOpacity(0.55),
+                  color: Colors.white.withOpacity(0.75),
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
             hSpace(15),
             // Current Weather
-            BlocBuilder<WeatherBloc, WeatherState>(builder: (_, state) {
-              if (state is WeatherLoadingState) {
-                return const WeatherLoadingCard();
-              } else if (state is WeatherLoadedState) {
-                return Center(
-                  child: WeatherDisplay(
-                    weather: state.weather,
-                  ),
-                );
-              } else if (state is WeatherErrorState) {
-                return ErrorMessageCard(
-                  message: state.message,
-                  icon: Icons.location_off_sharp,
-                );
-              } else if (state is NoLocationAccessState) {
-                return const ErrorMessageCard(
-                  message: 'Location unavailable',
-                  icon: Icons.location_off_sharp,
-                );
-              }
+            BlocBuilder<WeatherBloc, WeatherState>(
+              builder: (_, state) {
+                if (state is WeatherLoadingState) {
+                  return const WeatherLoadingCard();
+                } else if (state is WeatherLoadedState) {
+                  return Center(
+                    child: WeatherDisplay(
+                      weather: state.weather,
+                    ),
+                  );
+                } else if (state is WeatherErrorState) {
+                  return ErrorMessageCard(
+                    message: state.message,
+                    icon: Icons.location_off_sharp,
+                  );
+                } else if (state is NoLocationAccessState) {
+                  return const ErrorMessageCard(
+                    message: 'Location is disabled. Please enable it and re-launch the app',
+                    icon: Icons.location_off_sharp,
+                  );
+                }
 
-              return const ErrorMessageCard(
-                message: 'Could not get location data',
-                icon: Icons.location_off_sharp,
-              );
-            }),
+                return const ErrorMessageCard(
+                  message: 'Could not get location data',
+                  icon: Icons.location_off_sharp,
+                );
+              },
+            ),
 
             // Forecast City Picker
             hSpace(20),
@@ -114,17 +118,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   'Kochi',
                 ],
                 controller: _cityController,
-                onChanged: (value) {
-                  if (value.isEmpty) {
-                    context.read<ForecastBloc>().add(ForecastClearEvent());
-                  }
-                },
                 onSubmit: () {
                   if (_formKey.currentState!.validate()) {
                     forecastBloc.add(ForecastFetchEvent(
                       cityName: _cityController.text.trim(),
                     ));
-
+                    // Dismissing the keyboard on submit
                     FocusScope.of(context).unfocus();
                   }
                 },
@@ -136,11 +135,13 @@ class _HomeScreenState extends State<HomeScreen> {
               bloc: forecastBloc,
               builder: (context, state) {
                 if (state is ForecastInitial) {
-                  return Center(
-                      child: Text(
-                    'Enter a city name to get forecast',
-                    style: GoogleFonts.inter(),
-                  ));
+                  return const Center(
+                    child: NoticeDisplay(
+                      title: 'Note',
+                      meessage:
+                          'Type a city name or country and hit the send button to fetch the forecast for that city.',
+                    ),
+                  );
                 } else if (state is ForecastLoading) {
                   return const Center(
                     child: ForecastLoadingIndicator(),
@@ -156,6 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: data.list.length,
                       itemBuilder: (context, index) {
+                        // filtering out certain records to get unique day records
                         final fIndex = index % 8 == 0;
                         final item = data.list[index];
                         return (fIndex) ? ForecastCard(data: item) : const SizedBox();

@@ -21,7 +21,7 @@ class ForecastLoadingIndicator extends StatelessWidget {
             height: 100.h,
             padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
-              color: Colors.grey.shade600.withOpacity(0.5),
+              color: Colors.black.withOpacity(0.15),
               borderRadius: BorderRadius.circular(
                 MainCardLayout.borderRadius,
               ),
@@ -31,7 +31,8 @@ class ForecastLoadingIndicator extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 CircularProgressIndicator(
-                  color: Colors.grey.shade300.withOpacity(0.75),
+                  strokeWidth: 5,
+                  color: Colors.white.withOpacity(0.5),
                 ),
               ],
             ),

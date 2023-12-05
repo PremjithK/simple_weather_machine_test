@@ -19,7 +19,7 @@ class ErrorMessageCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
         child: Container(
           width: 360.w,
           height: 100.h,
@@ -28,18 +28,24 @@ class ErrorMessageCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(
               MainCardLayout.borderRadius,
             ),
-            color: Colors.red.shade600.withOpacity(0.7),
+            color: Colors.red.shade600.withOpacity(0.6),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                icon,
-                color: Colors.red.shade100,
+              Flexible(
+                flex: 1,
+                child: Icon(
+                  icon,
+                  color: Colors.red.shade100,
+                ),
               ),
-              wSpace(10),
-              Expanded(
+              wSpace(15),
+              Flexible(
+                flex: 3,
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(

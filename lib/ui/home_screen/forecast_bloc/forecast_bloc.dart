@@ -15,8 +15,6 @@ class ForecastBloc extends Bloc<ForecastEvent, ForecastState> {
   final WeatherRepository _repository;
   ForecastBloc(this._repository) : super(ForecastInitial()) {
     on<ForecastFetchEvent>(_fetchForecast);
-    on<ForecastClearEvent>(_forecastClear);
-    // _forecastClear
   }
 
   FutureOr<void> _fetchForecast(
