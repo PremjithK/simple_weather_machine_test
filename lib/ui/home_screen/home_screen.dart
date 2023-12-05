@@ -140,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       title: 'Note',
                       meessage:
                           '''Type a city name or country and hit the send button to fetch the forecast for that city.
-                          eg:  Kochi, Kannur, Tokyo...''',
+eg:  Kochi, Kannur, Tokyo...''',
                     ),
                   );
                 } else if (state is ForecastCleared) {

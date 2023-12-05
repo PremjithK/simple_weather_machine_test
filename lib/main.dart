@@ -8,6 +8,7 @@ import 'package:simple_weather/theme/theme.dart';
 import 'package:simple_weather/ui/home_screen/weather_bloc/weather_bloc.dart';
 import 'package:simple_weather/ui/home_screen/forecast_bloc/forecast_bloc.dart';
 import 'package:simple_weather/ui/home_screen/home_screen.dart';
+import 'package:simple_weather/ui/splash_screen/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,7 +47,7 @@ class MyApp extends StatelessWidget {
           darkTheme: darkTheme,
           debugShowCheckedModeBanner: false,
           title: 'Simple Weather App',
-          home: const HomeScreen(),
+          home: const SplashScreen(),
         ),
       ),
     );
