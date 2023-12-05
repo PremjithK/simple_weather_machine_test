@@ -18,7 +18,7 @@ class WeatherLoadingCard extends StatelessWidget {
           height: 280.h,
           padding: MainCardLayout.padding,
           decoration: BoxDecoration(
-            color: Colors.brown.shade300.withOpacity(0.75),
+            color: Colors.grey.shade500.withOpacity(0.75),
             borderRadius: BorderRadius.circular(MainCardLayout.borderRadius),
           ),
           child: Column(
@@ -27,14 +27,14 @@ class WeatherLoadingCard extends StatelessWidget {
             children: [
               SizedBox(
                 child: CircularProgressIndicator(
-                  color: Colors.brown.shade600,
+                  color: Colors.grey.shade800,
                 ),
               ),
               hSpace(10),
               Text(
                 'Getting location info...',
                 style: GoogleFonts.inter(
-                  color: Colors.brown.shade600,
+                  color: Colors.grey.shade800,
                   fontSize: 20.sp,
                 ),
               )

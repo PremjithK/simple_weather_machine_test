@@ -46,6 +46,7 @@ class ForecastCard extends StatelessWidget {
                   children: [
                     Icon(
                       showWeatherIcon(name: data.weather[0].main.name),
+                      color: Colors.white,
                       size: 50.sp,
                     ),
                     wSpace(5),
@@ -69,7 +70,9 @@ class ForecastCard extends StatelessWidget {
                       Text(
                         //date field
                         DateFormat('yyyy-MM-dd').format(data.dtTxt),
-                        style: GoogleFonts.inter(),
+                        style: GoogleFonts.inter(
+                          color: Colors.white.withOpacity(0.75),
+                        ),
                       ),
                       hSpace(5),
                       Text(
@@ -78,6 +81,7 @@ class ForecastCard extends StatelessWidget {
                         style: GoogleFonts.inter(
                           fontWeight: FontWeight.bold,
                           fontSize: 18.sp,
+                          color: Colors.white.withOpacity(0.75),
                         ),
                       ),
                       hSpace(5),
@@ -86,13 +90,19 @@ class ForecastCard extends StatelessWidget {
                           Text(
                             //date field
                             'MAX ${data.main.tempMax.round().toString()}°',
-                            style: GoogleFonts.inter(fontSize: 13.sp),
+                            style: GoogleFonts.inter(
+                              fontSize: 13.sp,
+                              color: Colors.white.withOpacity(0.75),
+                            ),
                           ),
                           wSpace(10),
                           Text(
                             //date field
                             'MIN ${data.main.tempMin.round().toString()}°',
-                            style: GoogleFonts.inter(fontSize: 13.sp),
+                            style: GoogleFonts.inter(
+                              fontSize: 13.sp,
+                              color: Colors.white.withOpacity(0.75),
+                            ),
                           ),
                         ],
                       ),

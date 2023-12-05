@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,40 +17,45 @@ class ErrorMessageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 360.w,
-      height: 100.h,
-      padding: MainCardLayout.padding,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(
-          MainCardLayout.borderRadius,
-        ),
-        color: Colors.red.shade600,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            color: Colors.red.shade200,
+    return ClipRRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: Container(
+          width: 360.w,
+          height: 100.h,
+          padding: MainCardLayout.padding,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(
+              MainCardLayout.borderRadius,
+            ),
+            color: Colors.red.shade600.withOpacity(0.7),
           ),
-          wSpace(10),
-          Column(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                message,
-                style: GoogleFonts.inter(
-                  color: Colors.red.shade200,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16.sp,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              )
+              Icon(
+                icon,
+                color: Colors.red.shade100,
+              ),
+              wSpace(10),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    message,
+                    style: GoogleFonts.inter(
+                      color: Colors.red.shade100,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16.sp,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  )
+                ],
+              ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }

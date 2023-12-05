@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_weather/config/config.dart';
 import 'package:simple_weather/data/forecast_model.dart' as fc;
 import 'package:simple_weather/domain/geo_locator.dart';
 import 'package:simple_weather/domain/weather_repository.dart';
 import 'package:simple_weather/theme/layout.dart';
-import 'package:simple_weather/ui/home_screen/bloc/weather_bloc.dart';
+import 'package:simple_weather/ui/home_screen/weather_bloc/weather_bloc.dart';
 import 'package:simple_weather/ui/home_screen/forecast_bloc/forecast_bloc.dart';
 import 'package:simple_weather/ui/widgets/city_entry_field.dart';
 import 'package:simple_weather/ui/widgets/error_message_card.dart';
@@ -34,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
     getDeviceLocation();
     weatherBloc = WeatherBloc(WeatherRepository());
     forecastBloc = ForecastBloc(WeatherRepository());
+    weatherBloc.add(FetchWeatherEvent());
     periodicFetch(weatherBloc);
   }
 
@@ -56,14 +57,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       child: Scaffold(
-        // Appbar
-        appBar: AppBar(
-          systemOverlayStyle: SystemUiOverlayStyle.dark,
-          elevation: 0,
-          scrolledUnderElevation: 0,
-          backgroundColor: Colors.transparent,
-          toolbarHeight: 0,
-        ),
         backgroundColor: Colors.transparent,
         body: Center(
           child: ListView(
@@ -106,6 +99,11 @@ class _HomeScreenState extends State<HomeScreen> {
               Form(
                 key: _formKey,
                 child: CityEntryField(
+                  autofillEntries: const [
+                    'Kozhikode',
+                    'Kannur',
+                    'Kochi',
+                  ],
                   controller: _cityController,
                   onSubmit: () {
                     if (_formKey.currentState!.validate()) {
@@ -122,7 +120,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 bloc: forecastBloc,
                 builder: (context, state) {
                   if (state is ForecastInitial) {
-                    return const SizedBox();
+                    return Center(
+                        child: Text(
+                      'Enter a city name to get forecast',
+                      style: GoogleFonts.inter(),
+                    ));
                   } else if (state is ForecastLoaded) {
                     final fc.ForecastData data = state.forecast;
 

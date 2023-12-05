@@ -11,8 +11,10 @@ class CityEntryField extends StatelessWidget {
     super.key,
     required this.controller,
     required this.onSubmit,
+    required this.autofillEntries,
   });
 
+  final List<String> autofillEntries;
   final TextEditingController controller;
   final void Function() onSubmit;
 
@@ -49,12 +51,17 @@ class CityEntryField extends StatelessWidget {
                     isDense: true,
                     errorMaxLines: 1,
                     hintText: 'Enter City Name',
+                    hintStyle: GoogleFonts.inter(
+                      color: Colors.white.withOpacity(0.25),
+                    ),
                     border: InputBorder.none,
                     errorStyle: GoogleFonts.inter(
                       fontSize: 12.sp,
                       height: 0,
                     ),
                   ),
+                  autofillHints: autofillEntries,
+                  keyboardType: TextInputType.text,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
                     if (value == '') {
@@ -69,9 +76,13 @@ class CityEntryField extends StatelessWidget {
                 style: IconButton.styleFrom(
                   backgroundColor: Colors.white,
                 ),
+                splashRadius: 15,
                 color: Colors.black,
                 onPressed: onSubmit,
-                icon: const Icon(Icons.search),
+                icon: const Icon(
+                  Icons.send,
+                  size: 20,
+                ),
               )
             ],
           ),

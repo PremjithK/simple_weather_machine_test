@@ -34,14 +34,18 @@ class ForecastBloc extends Bloc<ForecastEvent, ForecastState> {
         city: cityName,
         unit: unit,
       );
+      print(response.statusCode);
       if (response.statusCode == 200) {
-        // print(response.data);
         final ForecastData data = forecastDataFromJson(
           jsonEncode(response.data),
         );
         emit(ForecastLoaded(forecast: data));
       } else if (response.statusCode == 404) {
-        emit(ForecastError(message: 'City not found'));
+        emit(const ForecastError(message: 'City not found'));
+      }
+    } on DioException catch (e) {
+      if (e.response!.statusCode == 404) {
+        emit(ForecastError(message: 'City Not Found'));
       }
     } catch (e) {
       if (e is DioException) return;

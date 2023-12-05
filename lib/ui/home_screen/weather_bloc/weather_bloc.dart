@@ -23,6 +23,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     FetchWeatherEvent event,
     Emitter<WeatherState> emit,
   ) async {
+    print('Fetch Triggered');
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String unit = prefs.getString('unit') ?? 'metric';

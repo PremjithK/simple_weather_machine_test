@@ -59,15 +59,12 @@ class WeatherDisplay extends StatelessWidget {
     //! UI
     return BackdropFilter(
       filter: ColorFilter.mode(
-        colorsFromWeather(
-          weather: weather.weather[0].main,
-        )['bg']!
-            .withOpacity(0.5),
+        colorsFromWeather(weather: weather.weather[0].main)['bg']!,
         BlendMode.colorBurn,
       ),
       child: ClipRRect(
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Container(
             width: 360,
             height: 280.h,
@@ -76,7 +73,7 @@ class WeatherDisplay extends StatelessWidget {
               color: colorsFromWeather(
                 weather: weather.weather[0].main,
               )['bg']!
-                  .withOpacity(0.75),
+                  .withOpacity(0.5),
               borderRadius: BorderRadius.circular(
                 MainCardLayout.borderRadius + 5,
               ),
@@ -85,7 +82,10 @@ class WeatherDisplay extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text('Today', style: mainHeading),
-                Text(DateFormat('yyyy-MM-dd').format(DateTime.now()), style: mainDate),
+                Text(
+                  DateFormat('yyyy-MM-dd hh:mm a').format(DateTime.now()),
+                  style: mainDate,
+                ),
                 hSpace(10),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
