@@ -51,7 +51,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
         );
       }
     } catch (err) {
-      emit(const WeatherErrorState(message: 'Location Services are disabled'));
+      emit(const WeatherErrorState(message: 'Location Services are disabled, Relaunch the app'));
     }
   }
 }

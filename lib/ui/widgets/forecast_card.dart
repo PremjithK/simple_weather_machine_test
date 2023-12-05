@@ -75,7 +75,14 @@ class ForecastCard extends StatelessWidget {
                           color: Colors.white.withOpacity(0.5),
                         ),
                       ),
-                      hSpace(5),
+                      Text(
+                        //date field
+                        DateFormat('hh:mm a').format(data.dtTxt),
+                        style: GoogleFonts.inter(
+                          fontSize: 14.sp,
+                          color: Colors.white.withOpacity(0.5),
+                        ),
+                      ),
                       Text(
                         //date field
                         data.weather[0].main.name,
@@ -85,28 +92,27 @@ class ForecastCard extends StatelessWidget {
                           color: Colors.white.withOpacity(0.75),
                         ),
                       ),
-                      hSpace(5),
-                      Row(
-                        children: [
-                          Text(
-                            //date field
-                            'MAX ${data.main.tempMax.round().toString()}°',
-                            style: GoogleFonts.inter(
-                              fontSize: 13.sp,
-                              color: Colors.white.withOpacity(0.5),
-                            ),
-                          ),
-                          wSpace(10),
-                          Text(
-                            //date field
-                            'MIN ${data.main.tempMin.round().toString()}°',
-                            style: GoogleFonts.inter(
-                              fontSize: 13.sp,
-                              color: Colors.white.withOpacity(0.5),
-                            ),
-                          ),
-                        ],
-                      ),
+                      // Row(
+                      //   children: [
+                      //     Text(
+                      //       //date field
+                      //       'MAX ${data.main.tempMax.round().toString()}°',
+                      //       style: GoogleFonts.inter(
+                      //         fontSize: 13.sp,
+                      //         color: Colors.white.withOpacity(0.5),
+                      //       ),
+                      //     ),
+                      //     wSpace(10),
+                      //     Text(
+                      //       //date field
+                      //       'MIN ${data.main.tempMin.round().toString()}°',
+                      //       style: GoogleFonts.inter(
+                      //         fontSize: 13.sp,
+                      //         color: Colors.white.withOpacity(0.5),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
                     ],
                   ),
                 ),

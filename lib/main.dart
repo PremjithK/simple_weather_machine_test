@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:simple_weather/domain/weather_repository.dart';
 import 'package:simple_weather/theme/theme.dart';
 import 'package:simple_weather/ui/home_screen/weather_bloc/weather_bloc.dart';
@@ -17,6 +18,7 @@ void main() async {
       statusBarColor: Colors.transparent,
     ),
   );
+
   runApp(const MyApp());
 }
 

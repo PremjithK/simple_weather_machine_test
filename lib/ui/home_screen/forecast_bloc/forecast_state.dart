@@ -11,6 +11,8 @@ final class ForecastInitial extends ForecastState {}
 
 final class ForecastLoading extends ForecastState {}
 
+final class ForecastCleared extends ForecastState {}
+
 final class ForecastLoaded extends ForecastState {
   final ForecastData forecast;
 

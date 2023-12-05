@@ -17,8 +17,8 @@ class NoticeDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     final textShadow = [
       BoxShadow(
-        color: Colors.black.withOpacity(0.6),
-        blurRadius: 15,
+        color: Colors.black.withOpacity(0.5),
+        blurRadius: 25,
       )
     ];
     return Column(

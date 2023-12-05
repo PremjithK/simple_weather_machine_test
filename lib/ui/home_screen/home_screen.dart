@@ -139,9 +139,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: NoticeDisplay(
                       title: 'Note',
                       meessage:
-                          'Type a city name or country and hit the send button to fetch the forecast for that city.',
+                          '''Type a city name or country and hit the send button to fetch the forecast for that city.
+                          eg:  Kochi, Kannur, Tokyo...''',
                     ),
                   );
+                } else if (state is ForecastCleared) {
+                  return const SizedBox();
                 } else if (state is ForecastLoading) {
                   return const Center(
                     child: ForecastLoadingIndicator(),
@@ -157,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: data.list.length,
                       itemBuilder: (context, index) {
-                        // filtering out certain records to get unique day records
+                        // filtering out certain records to get unique day
                         final fIndex = index % 8 == 0;
                         final item = data.list[index];
                         return (fIndex) ? ForecastCard(data: item) : const SizedBox();

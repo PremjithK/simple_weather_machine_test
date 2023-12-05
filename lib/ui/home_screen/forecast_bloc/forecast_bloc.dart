@@ -52,11 +52,4 @@ class ForecastBloc extends Bloc<ForecastEvent, ForecastState> {
       emit(const ForecastError(message: 'Unable to get forecast'));
     }
   }
-
-  FutureOr<void> _forecastClear(
-    ForecastClearEvent event,
-    Emitter<ForecastState> emit,
-  ) async {
-    emit(ForecastInitial());
-  }
 }
