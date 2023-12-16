@@ -95,7 +95,7 @@ class WeatherDisplay extends StatelessWidget {
           ),
           Text(
             // DateTime
-            DateFormat('EEEE dd').format(DateTime.now()),
+            DateFormat('MMMM dd').format(DateTime.now()),
             style: mainDate,
           ),
           hSpace(10),

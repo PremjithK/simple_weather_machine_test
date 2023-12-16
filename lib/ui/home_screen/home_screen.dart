@@ -15,6 +15,7 @@ import 'package:simple_weather/ui/widgets/error_message_card.dart';
 import 'package:simple_weather/ui/widgets/forecast_card.dart';
 import 'package:simple_weather/ui/widgets/forecast_loading_indicator.dart';
 import 'package:simple_weather/ui/widgets/notice_text.dart';
+import 'package:simple_weather/ui/widgets/my_elevated_button.dart';
 import 'package:simple_weather/ui/widgets/weather_display.dart';
 import 'package:simple_weather/ui/widgets/spacer.dart';
 import 'package:simple_weather/ui/widgets/weather_loading.dart';
@@ -37,14 +38,14 @@ class _HomeScreenState extends State<HomeScreen> {
     weatherBloc = WeatherBloc(WeatherRepository());
     forecastBloc = ForecastBloc(WeatherRepository());
 
-    periodicFetch(weatherBloc);
+    periodicFetch();
   }
 
   //^ Periodically Fetching current weather information
-  void periodicFetch(WeatherBloc weatherBloc) {
+  void periodicFetch() {
     Timer.periodic(const Duration(seconds: 60), (Timer timer) {
-      weatherBloc.add(FetchWeatherEvent());
-      print('Periodic fetch');
+      BlocProvider.of<WeatherBloc>(context).add(FetchWeatherEvent());
+      print('Periodic fetch triggered');
     });
   }
 
@@ -101,11 +102,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         message: state.message,
                         icon: Icons.location_off_sharp,
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          context.read<WeatherBloc>().add(FetchWeatherEvent());
-                        },
-                        child: const Text('Retry'),
+                      hSpace(5),
+                      MyElevatedButton(
+                        label: 'Retry',
+                        icon: const Icon(Icons.repeat),
+                        onPressed: () => BlocProvider.of<WeatherBloc>(context)
+                            .add(FetchWeatherEvent()),
                       ),
                     ],
                   );
