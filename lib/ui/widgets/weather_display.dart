@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:simple_weather/data/current_weather_model.dart';
 import 'package:simple_weather/theme/layout.dart';
-import 'package:simple_weather/ui/widgets/color_from_weather.dart';
 import 'package:simple_weather/ui/widgets/spacer.dart';
 import 'package:simple_weather/ui/widgets/weather_state_icon.dart';
 

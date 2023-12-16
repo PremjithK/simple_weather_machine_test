@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:simple_weather/config/config.dart';
 import 'package:simple_weather/domain/geo_locator.dart';
@@ -22,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  void loadHomePage() async {
+  void loadHomePage() {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(

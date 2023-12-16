@@ -22,4 +22,8 @@ final class WeatherErrorState extends WeatherState {
   const WeatherErrorState({required this.message});
 }
 
-final class NoLocationAccessState extends WeatherState {}
+final class NoLocationAccessState extends WeatherState {
+  final String message;
+
+  const NoLocationAccessState({required this.message});
+}

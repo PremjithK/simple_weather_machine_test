@@ -23,12 +23,34 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     FetchWeatherEvent event,
     Emitter<WeatherState> emit,
   ) async {
+    print('fetch event');
     emit(WeatherLoadingState());
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String unit = prefs.getString('unit') ?? 'metric';
+
+      // Check if location services are enabled
       if (!await Geolocator.isLocationServiceEnabled()) {
-        emit(NoLocationAccessState());
+        emit(
+          const NoLocationAccessState(
+              message: 'Location service is disabled, try again'),
+        );
+        return;
+      }
+
+      // Check if location permission is granted
+      final status = await Geolocator.checkPermission();
+      if (status == LocationPermission.denied) {
+        // Request location permission
+        final permissionStatus = await Geolocator.requestPermission();
+        if (permissionStatus != LocationPermission.whileInUse &&
+            permissionStatus != LocationPermission.always) {
+          emit(const WeatherErrorState(
+            message:
+                'Location permission denied. Unable to fetch weather data.',
+          ));
+          return;
+        }
       }
 
       final Position pos = await Geolocator.getCurrentPosition();
@@ -51,7 +73,9 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
         );
       }
     } catch (err) {
-      emit(const WeatherErrorState(message: 'Location Services are disabled, Relaunch the app'));
+      emit(
+        const WeatherErrorState(message: 'Unexpected error occured'),
+      );
     }
   }
 }

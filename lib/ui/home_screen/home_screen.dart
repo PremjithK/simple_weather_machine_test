@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_weather/config/config.dart';
 import 'package:simple_weather/data/forecast_model.dart' as fc;
@@ -44,6 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void periodicFetch(WeatherBloc weatherBloc) {
     Timer.periodic(const Duration(seconds: 60), (Timer timer) {
       weatherBloc.add(FetchWeatherEvent());
+      print('Periodic fetch');
     });
   }
 
@@ -79,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
             hSpace(15),
             // Current Weather
             BlocBuilder<WeatherBloc, WeatherState>(
-              builder: (_, state) {
+              builder: (co, state) {
                 if (state is WeatherLoadingState) {
                   return const WeatherLoadingCard();
                 } else if (state is WeatherLoadedState) {
@@ -94,9 +96,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     icon: Icons.location_off_sharp,
                   );
                 } else if (state is NoLocationAccessState) {
-                  return const ErrorMessageCard(
-                    message: 'Location is disabled. Please enable it and re-launch the app',
-                    icon: Icons.location_off_sharp,
+                  return Column(
+                    children: [
+                      ErrorMessageCard(
+                        message: state.message,
+                        icon: Icons.location_off_sharp,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          context.read<WeatherBloc>().add(FetchWeatherEvent());
+                        },
+                        child: const Text('Retry'),
+                      ),
+                    ],
                   );
                 }
 
@@ -133,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
             hSpace(20),
             BlocBuilder<ForecastBloc, ForecastState>(
               bloc: forecastBloc,
-              builder: (context, state) {
+              builder: (_, state) {
                 if (state is ForecastInitial) {
                   return const Center(
                     child: NoticeDisplay(
@@ -163,7 +175,9 @@ eg:  Kochi, Kannur, Tokyo...''',
                         // filtering out certain records to get unique day
                         final fIndex = index % 8 == 0;
                         final item = data.list[index];
-                        return (fIndex) ? ForecastCard(data: item) : const SizedBox();
+                        return (fIndex)
+                            ? ForecastCard(data: item)
+                            : const SizedBox();
                       },
                     ),
                   );

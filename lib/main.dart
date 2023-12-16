@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:simple_weather/domain/weather_repository.dart';
 import 'package:simple_weather/theme/theme.dart';
 import 'package:simple_weather/ui/home_screen/weather_bloc/weather_bloc.dart';
 import 'package:simple_weather/ui/home_screen/forecast_bloc/forecast_bloc.dart';
-import 'package:simple_weather/ui/home_screen/home_screen.dart';
 import 'package:simple_weather/ui/splash_screen/splash_screen.dart';
 
 void main() async {
