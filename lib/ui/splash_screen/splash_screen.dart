@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:simple_weather/config/config.dart';
-import 'package:simple_weather/domain/geo_locator.dart';
 import 'package:simple_weather/ui/home_screen/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {

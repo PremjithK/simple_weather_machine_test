@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_weather/config/config.dart';
 import 'package:simple_weather/data/forecast_model.dart' as fc;
@@ -81,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
             hSpace(15),
             // Current Weather
             BlocBuilder<WeatherBloc, WeatherState>(
-              builder: (co, state) {
+              builder: (context, state) {
                 if (state is WeatherLoadingState) {
                   return const WeatherLoadingCard();
                 } else if (state is WeatherLoadedState) {
@@ -130,6 +129,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   'Kochi',
                 ],
                 controller: _cityController,
+                onChanged: (value) {
+                  if (value == '') {
+                    forecastBloc.add(ForecastClearEvent());
+                  }
+                },
                 onSubmit: () {
                   if (_formKey.currentState!.validate()) {
                     forecastBloc.add(ForecastFetchEvent(
@@ -150,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   return const Center(
                     child: NoticeDisplay(
                       title: 'Note',
-                      meessage:
+                      message:
                           '''Type a city name or country and hit the send button to fetch the forecast for that city.
 eg:  Kochi, Kannur, Tokyo...''',
                     ),

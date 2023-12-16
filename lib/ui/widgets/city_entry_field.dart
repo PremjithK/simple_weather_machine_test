@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_weather/theme/layout.dart';
 import 'package:simple_weather/ui/widgets/spacer.dart';
 
-class CityEntryField extends StatefulWidget {
+class CityEntryField extends StatelessWidget {
   const CityEntryField({
     super.key,
     required this.controller,
@@ -22,11 +22,6 @@ class CityEntryField extends StatefulWidget {
   final void Function() onSubmit;
   final FocusNode? focusNode;
 
-  @override
-  State<CityEntryField> createState() => _CityEntryFieldState();
-}
-
-class _CityEntryFieldState extends State<CityEntryField> {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -50,10 +45,11 @@ class _CityEntryFieldState extends State<CityEntryField> {
               Expanded(
                 child: TextFormField(
                   expands: false,
-                  controller: widget.controller,
+                  controller: controller,
                   style: GoogleFonts.inter(
                     color: Colors.white,
-                    fontSize: 18.sp,
+                    fontSize: 16.sp,
+                    letterSpacing: 0,
                     fontWeight: FontWeight.w500,
                   ),
                   canRequestFocus: true,
@@ -72,9 +68,9 @@ class _CityEntryFieldState extends State<CityEntryField> {
                       color: Colors.red.shade400,
                     ),
                   ),
-                  focusNode: widget.focusNode,
+                  focusNode: focusNode,
                   cursorColor: Colors.white,
-                  autofillHints: widget.autofillEntries,
+                  autofillHints: autofillEntries,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
                     if (value == '') {
@@ -82,7 +78,7 @@ class _CityEntryFieldState extends State<CityEntryField> {
                     }
                     return null;
                   },
-                  onChanged: widget.onChanged,
+                  onChanged: onChanged,
                 ),
               ),
               wSpace(15),
@@ -92,7 +88,7 @@ class _CityEntryFieldState extends State<CityEntryField> {
                 ),
                 splashRadius: 20,
                 color: Colors.black,
-                onPressed: widget.onSubmit,
+                onPressed: onSubmit,
                 icon: const Icon(
                   Icons.send,
                   size: 18,

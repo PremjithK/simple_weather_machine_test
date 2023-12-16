@@ -7,18 +7,19 @@ class NoticeDisplay extends StatelessWidget {
   const NoticeDisplay({
     super.key,
     required this.title,
-    required this.meessage,
+    required this.message,
   });
 
   final String title;
-  final String meessage;
+  final String message;
 
   @override
   Widget build(BuildContext context) {
     final textShadow = [
       BoxShadow(
-        color: Colors.black.withOpacity(0.5),
-        blurRadius: 25,
+        color: Colors.black.withOpacity(0.8),
+        spreadRadius: 5,
+        blurRadius: 30,
       )
     ];
     return Column(
@@ -30,18 +31,18 @@ class NoticeDisplay extends StatelessWidget {
           style: GoogleFonts.instrumentSans(
             fontWeight: FontWeight.bold,
             color: Colors.white,
-            fontSize: 25.sp,
+            fontSize: 21.sp,
             shadows: textShadow,
           ),
         ),
         hSpace(5),
         Text(
-          meessage,
+          message,
           maxLines: 5,
           style: GoogleFonts.instrumentSans(
             fontWeight: FontWeight.w500,
             color: Colors.white.withOpacity(0.75),
-            fontSize: 18.sp,
+            fontSize: 16.sp,
             shadows: textShadow,
           ),
         ),

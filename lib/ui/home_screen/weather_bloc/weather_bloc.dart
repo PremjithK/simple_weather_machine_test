@@ -54,25 +54,35 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       }
 
       final Position pos = await Geolocator.getCurrentPosition();
-      final Response response = await _repository.fetchWeather(
-        pos.latitude,
-        pos.longitude,
-        unit,
-      );
+      try {
+        final Response response = await _repository.fetchWeather(
+          pos.latitude,
+          pos.longitude,
+          unit,
+        );
 
-      if (response.statusCode == 200) {
-        final CurrentWeather data = currentWeatherFromJson(
-          jsonEncode(response.data),
-        );
-        emit(WeatherLoadedState(weather: data));
-      } else if (response.statusCode == 500) {
-        emit(
-          const WeatherErrorState(
-            message: 'Server error occured. Try again later',
-          ),
-        );
+        if (response.statusCode == 200) {
+          final CurrentWeather data = currentWeatherFromJson(
+            jsonEncode(response.data),
+          );
+          emit(WeatherLoadedState(weather: data));
+        } else if (response.statusCode == 404) {
+          emit(
+            const WeatherErrorState(
+                message: 'Could not get weather data of this location'),
+          );
+        } else if (response.statusCode == 500) {
+          emit(
+            const WeatherErrorState(
+              message: 'Server error occured. Try again later',
+            ),
+          );
+        }
+      } catch (e) {
+        emit(const WeatherErrorState(message: 'Error'));
       }
     } catch (err) {
+      print(err);
       emit(
         const WeatherErrorState(message: 'Unexpected error occured'),
       );
