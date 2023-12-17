@@ -7,7 +7,6 @@ import 'package:equatable/equatable.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_weather/data/current_weather_model.dart';
-import 'package:simple_weather/domain/geo_locator.dart';
 import 'package:simple_weather/domain/weather_repository.dart';
 
 part 'weather_event.dart';

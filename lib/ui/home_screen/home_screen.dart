@@ -21,7 +21,9 @@ import 'package:simple_weather/ui/widgets/spacer.dart';
 import 'package:simple_weather/ui/widgets/weather_loading.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({
+    super.key,
+  });
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -138,9 +140,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 onSubmit: () {
                   if (_formKey.currentState!.validate()) {
-                    forecastBloc.add(ForecastFetchEvent(
-                      cityName: _cityController.text.trim(),
-                    ));
+                    forecastBloc.add(
+                      ForecastFetchEvent(
+                        cityName: _cityController.text.trim(),
+                      ),
+                    );
                     // Dismissing the keyboard on submit
                     FocusScope.of(context).unfocus();
                   }
